@@ -17,16 +17,16 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -49,20 +49,20 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDTO0oOj8QSXb-5Faq5SEcKHaifBotoLWg',
-    appId: '1:171083730920:web:cb9be0565e32b7eb48de5d',
-    messagingSenderId: '171083730920',
-    projectId: 'ecopoints-a4628',
-    authDomain: 'ecopoints-a4628.firebaseapp.com',
-    storageBucket: 'ecopoints-a4628.appspot.com',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBFEcLsKwvRzh4d_Cui5Jsd3vVhU8QDOvc',
     appId: '1:171083730920:android:3c4f548d8fb659d548de5d',
     messagingSenderId: '171083730920',
     projectId: 'ecopoints-a4628',
     storageBucket: 'ecopoints-a4628.appspot.com',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyDZXi1Ux2lcZnXlnj8BZdpKrgviHNB8Ves',
+    appId: '1:171083730920:ios:b0277ae355643fda48de5d',
+    messagingSenderId: '171083730920',
+    projectId: 'ecopoints-a4628',
+    storageBucket: 'ecopoints-a4628.appspot.com',
+    iosBundleId: 'com.example.ecopoints',
   );
 }
