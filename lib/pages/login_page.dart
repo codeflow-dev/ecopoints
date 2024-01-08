@@ -1,5 +1,6 @@
 // ignore_for_file: require_trailing_commas, non_constant_identifier_names, override_on_non_overriding_member, prefer_const_constructors_in_immutables, avoid_print, use_build_context_synchronously
 
+import 'package:ecopoints/pages/agent_home.dart';
 import 'package:ecopoints/pages/home_page.dart';
 import 'package:ecopoints/pages/register_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -28,12 +29,20 @@ class _LoginPageState extends State<LoginPage> {
   Future Login() async {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: "${widget.role}_${_emailController.text.trim()}",
+          email: _emailController.text.trim(),
           password: _passwordController.text.trim());
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => HomePage()),
-      );
+      print(widget.role);
+      if (widget.role == "agent") {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => AgentHomePage()),
+        );
+      } else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
+      }
     } catch (e) {
       print("incorrect");
     }

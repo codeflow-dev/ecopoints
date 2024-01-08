@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors_in_immutables, require_trailing_commas, avoid_print, use_build_context_synchronously
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecopoints/pages/agent_home.dart';
 import 'package:ecopoints/pages/home_page.dart';
 import 'package:ecopoints/pages/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -32,22 +33,31 @@ class _RegisterPageState extends State<RegisterPage> {
     try {
       if (_passwordController.text.trim() ==
           _confirmPasswordController.text.trim()) {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-            email: "${widget.role}_${_emailController.text.trim()}",
+        final user = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: _emailController.text.trim(),
             password: _passwordController.text.trim());
 
-        //details
-        await FirebaseFirestore.instance.collection(widget.role).add({
-          'first name': _firstNameController.text.trim(),
-          'last name': _lastNameController.text.trim(),
-          'email': _emailController.text.trim(),
-          'role': widget.role,
-        });
+        if (user.user != null) {
+          await FirebaseFirestore.instance
+              .collection(widget.role)
+              .doc(user.user?.uid)
+              .set({
+            "firstName": _firstNameController.text.trim(),
+            "lastName": _lastNameController.text.trim(),
+          }, SetOptions(merge: true));
 
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-        );
+          if (widget.role == "agent") {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => AgentHomePage()),
+            );
+          } else {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage()),
+            );
+          }
+        }
       } else {
         print("both should be same");
       }

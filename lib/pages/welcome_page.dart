@@ -34,20 +34,11 @@ class WelcomePage extends StatelessWidget {
                 Column(
                   children: [
                     ElevatedButton(
-                        onPressed: () =>
-                            _navigateToSecondPage(context, "provider"),
+                        onPressed: () => _navigateToSecondPage(context, "user"),
                         child: Text(
-                          'Provide recyclable now!',
+                          'Provide or buy recyclable now!',
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 25),
-                        )),
-                    ElevatedButton(
-                        onPressed: () =>
-                            _navigateToSecondPage(context, "buyer"),
-                        child: Text(
-                          'Buy recyclable now!',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20),
                         )),
                     ElevatedButton(
                         onPressed: () =>
