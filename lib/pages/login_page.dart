@@ -28,10 +28,24 @@ class _LoginPageState extends State<LoginPage> {
 
   Future Login() async {
     try {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => AlertDialog(
+          content: Row(
+            children: [
+              CircularProgressIndicator(),
+              SizedBox(width: 10),
+              Text("Loading"),
+            ],
+          ),
+        ),
+      );
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: _emailController.text.trim(),
           password: _passwordController.text.trim());
-      print(widget.role);
+
+      Navigator.pop(context);
       if (widget.role == "agent") {
         Navigator.pushReplacement(
           context,
@@ -44,7 +58,13 @@ class _LoginPageState extends State<LoginPage> {
         );
       }
     } catch (e) {
-      print("incorrect");
+      Navigator.pop(context);
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          content: Text(e.toString()),
+        ),
+      );
     }
   }
 

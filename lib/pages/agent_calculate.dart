@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecopoints/pages/provide_qr.dart';
 import 'package:flutter/material.dart';
 
 class CalculatePage extends StatefulWidget {
@@ -70,7 +72,33 @@ class _CalculatePageState extends State<CalculatePage> {
                 textAlign: TextAlign.right,
               ),
             ),
-            ElevatedButton(onPressed: () {}, child: Text("Generate QR Code"))
+            ElevatedButton(
+              onPressed: () async {
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (context) => AlertDialog(
+                    content: Row(
+                      children: [
+                        CircularProgressIndicator(),
+                        SizedBox(width: 10),
+                        Text("Loading"),
+                      ],
+                    ),
+                  ),
+                );
+                final id = await FirebaseFirestore.instance
+                    .collection("provide_transactions")
+                    .add({"points": totalPoints(), "received": false});
+                if (mounted) {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => ProvideQRPage(id.id, totalPoints()),
+                  ));
+                }
+              },
+              child: Text("Generate QR Code"),
+            )
           ],
         ),
       ),
