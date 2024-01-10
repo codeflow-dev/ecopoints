@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecopoints/pages/agent_home.dart';
 import 'package:ecopoints/pages/home_page.dart';
 import 'package:ecopoints/pages/login_page.dart';
+import 'package:ecopoints/pages/user_home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -54,7 +55,7 @@ class _RegisterPageState extends State<RegisterPage> {
           } else {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => HomePage()),
+              MaterialPageRoute(builder: (context) => UserHomePage()),
             );
           }
         }
