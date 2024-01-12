@@ -48,6 +48,15 @@ class WelcomePage extends StatelessWidget {
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 18),
                         )),
+                    // ElevatedButton(
+                    //   onPressed: () {
+                    //     Navigator.push(
+                    //         context,
+                    //         MaterialPageRoute(
+                    //             builder: ((context) => BuyerPage())));
+                    //   },
+                    //   child: Text("HI"),
+                    // ),
                   ],
                 ),
                 // SizedBox(height: 20),

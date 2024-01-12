@@ -1,6 +1,10 @@
-import 'package:ecopoints/pages/welcome_page.dart';
+// ignore_for_file: require_trailing_commas
+
+import 'package:ecopoints/pages/buyer_page.dart';
+import 'package:ecopoints/pages/store.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'color_schemes.g.dart';
 import 'firebase_options.dart';
@@ -10,7 +14,11 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  //runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+    create: (context) => Store(),
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -23,8 +31,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(colorScheme: lightColorScheme),
       darkTheme: ThemeData(colorScheme: darkColorScheme),
-      //home: MainPage(),
-      home: WelcomePage(),
+      // home: BuyerPage(),
+      //home: AgentLocation(),
+      home: BuyerPage(),
       themeMode: ThemeMode.dark,
     );
   }
