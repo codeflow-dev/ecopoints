@@ -1,7 +1,6 @@
-// ignore_for_file: require_trailing_commas, non_constant_identifier_names, override_on_non_overriding_member, prefer_const_constructors_in_immutables, avoid_print, use_build_context_synchronously
+// ignore_for_file: non_constant_identifier_names, override_on_non_overriding_member, prefer_const_constructors_in_immutables, avoid_print, use_build_context_synchronously
 
 import 'package:ecopoints/pages/agent_home.dart';
-import 'package:ecopoints/pages/home_page.dart';
 import 'package:ecopoints/pages/register_page.dart';
 import 'package:ecopoints/pages/user_home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -43,8 +42,9 @@ class _LoginPageState extends State<LoginPage> {
         ),
       );
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: _emailController.text.trim(),
-          password: _passwordController.text.trim());
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
 
       Navigator.pop(context);
       if (widget.role == "agent") {
@@ -79,104 +79,109 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Padding(
-      padding: const EdgeInsets.fromLTRB(25, 50, 25, 0),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Welcome Back!",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-            ),
-            SizedBox(height: 20),
-            Text(
-              "Make the world greener!",
-              style: TextStyle(fontSize: 20),
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.grey[900],
-                border: Border.all(color: Colors.white),
-                borderRadius: BorderRadius.circular(13),
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(25, 50, 25, 0),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Welcome Back!",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
               ),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20),
-                child: TextField(
-                  controller: _emailController,
-                  decoration: InputDecoration(
+              SizedBox(height: 20),
+              Text(
+                "Make the world greener!",
+                style: TextStyle(fontSize: 20),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey[900],
+                  border: Border.all(color: Colors.white),
+                  borderRadius: BorderRadius.circular(13),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: TextField(
+                    controller: _emailController,
+                    decoration: InputDecoration(
                       border: InputBorder.none,
                       icon: Icon(Icons.email_rounded),
                       hintText: 'Email',
-                      fillColor: Colors.white),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.grey[900],
-                border: Border.all(color: Colors.white),
-                borderRadius: BorderRadius.circular(13),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20),
-                child: TextField(
-                  controller: _passwordController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Password',
-                    fillColor: Colors.white,
-                    icon: Icon(Icons.key_sharp),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            GestureDetector(
-              onTap: Login,
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.blueAccent,
-                    borderRadius: BorderRadius.circular(9)),
-                padding: EdgeInsets.all(18),
-                child: Center(
-                  child: Text(
-                    'Login',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
+                      fillColor: Colors.white,
                     ),
                   ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Text(
-              "Don't have an account?",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            GestureDetector(
-              onTap: () => _navigateToSecondPage(context),
-              child: Text(
-                "Register Now",
-                style:
-                    TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
+              SizedBox(
+                height: 20,
               ),
-            )
-          ],
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey[900],
+                  border: Border.all(color: Colors.white),
+                  borderRadius: BorderRadius.circular(13),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: TextField(
+                    controller: _passwordController,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: 'Password',
+                      fillColor: Colors.white,
+                      icon: Icon(Icons.key_sharp),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              GestureDetector(
+                onTap: Login,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.blueAccent,
+                    borderRadius: BorderRadius.circular(9),
+                  ),
+                  padding: EdgeInsets.all(18),
+                  child: Center(
+                    child: Text(
+                      'Login',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                "Don't have an account?",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              GestureDetector(
+                onTap: () => _navigateToSecondPage(context),
+                child: Text(
+                  "Register Now",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
-    ));
+    );
   }
 }

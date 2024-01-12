@@ -1,12 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecopoints/pages/user_scan.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class UserScanCompletePage extends StatelessWidget {
-  String id;
+  final String id;
 
-  UserScanCompletePage(this.id, {super.key});
+  const UserScanCompletePage(this.id, {super.key});
 
   Future<int> updateTransaction() async {
     final data = (await FirebaseFirestore.instance
@@ -50,22 +49,23 @@ class UserScanCompletePage extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.done) {
           final data = snapshot.data!;
           return Scaffold(
-              appBar: AppBar(title: Text("Points added successfully")),
-              body: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.check, size: 40),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Text(
-                      "$data points are added to your account.",
-                      style: TextStyle(fontSize: 18),
-                    )
-                  ],
-                ),
-              ));
+            appBar: AppBar(title: Text("Points added successfully")),
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.check, size: 40),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Text(
+                    "$data points are added to your account.",
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ],
+              ),
+            ),
+          );
         }
         return Scaffold(
           appBar: AppBar(title: Text("Loading...")),

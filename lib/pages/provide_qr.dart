@@ -13,21 +13,24 @@ class ProvideQRPage extends StatelessWidget {
       appBar: AppBar(title: Text("Transaction Complete")),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
-        child: Column(children: [
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: Container(
-              decoration: BoxDecoration(color: Colors.white),
-              child: QrImageView(
-                  data: "{\"type\": \"provide_transaction\", \"id\": \"$id\"}"),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Container(
+                decoration: BoxDecoration(color: Colors.white),
+                child: QrImageView(
+                  data: "{\"type\": \"provide_transaction\", \"id\": \"$id\"}",
+                ),
+              ),
             ),
-          ),
-          Text(
-            "Please ask the user to scan the QR code and collect $points points",
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 20),
-          ),
-        ]),
+            Text(
+              "Please ask the user to scan the QR code and collect $points points",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 20),
+            ),
+          ],
+        ),
       ),
     );
   }

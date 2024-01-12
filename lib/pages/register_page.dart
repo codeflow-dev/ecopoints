@@ -1,8 +1,5 @@
-// ignore_for_file: prefer_const_constructors_in_immutables, require_trailing_commas, avoid_print, use_build_context_synchronously
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecopoints/pages/agent_home.dart';
-import 'package:ecopoints/pages/home_page.dart';
 import 'package:ecopoints/pages/login_page.dart';
 import 'package:ecopoints/pages/user_home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,7 +7,7 @@ import 'package:flutter/material.dart';
 
 class RegisterPage extends StatefulWidget {
   final String role;
-  RegisterPage({super.key, required this.role});
+  const RegisterPage({super.key, required this.role});
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -35,28 +32,33 @@ class _RegisterPageState extends State<RegisterPage> {
       if (_passwordController.text.trim() ==
           _confirmPasswordController.text.trim()) {
         final user = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-            email: _emailController.text.trim(),
-            password: _passwordController.text.trim());
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+        );
 
         if (user.user != null) {
           await FirebaseFirestore.instance
               .collection(widget.role)
               .doc(user.user?.uid)
-              .set({
-            "firstName": _firstNameController.text.trim(),
-            "lastName": _lastNameController.text.trim(),
-          }, SetOptions(merge: true));
-
-          if (widget.role == "agent") {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => AgentHomePage()),
-            );
-          } else {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => UserHomePage()),
-            );
+              .set(
+            {
+              "firstName": _firstNameController.text.trim(),
+              "lastName": _lastNameController.text.trim(),
+            },
+            SetOptions(merge: true),
+          );
+          if (mounted) {
+            if (widget.role == "agent") {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => AgentHomePage()),
+              );
+            } else {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => UserHomePage()),
+              );
+            }
           }
         }
       } else {
@@ -110,10 +112,11 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: TextField(
                       controller: _firstNameController,
                       decoration: InputDecoration(
-                          border: InputBorder.none,
-                          icon: Icon(Icons.people_alt),
-                          hintText: 'First Name',
-                          fillColor: Colors.white),
+                        border: InputBorder.none,
+                        icon: Icon(Icons.people_alt),
+                        hintText: 'First Name',
+                        fillColor: Colors.white,
+                      ),
                     ),
                   ),
                 ),
@@ -131,10 +134,11 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: TextField(
                       controller: _lastNameController,
                       decoration: InputDecoration(
-                          border: InputBorder.none,
-                          icon: Icon(Icons.people_alt),
-                          hintText: 'Last Name',
-                          fillColor: Colors.white),
+                        border: InputBorder.none,
+                        icon: Icon(Icons.people_alt),
+                        hintText: 'Last Name',
+                        fillColor: Colors.white,
+                      ),
                     ),
                   ),
                 ),
@@ -152,10 +156,11 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: TextField(
                       controller: _emailController,
                       decoration: InputDecoration(
-                          border: InputBorder.none,
-                          icon: Icon(Icons.email_rounded),
-                          hintText: 'Email',
-                          fillColor: Colors.white),
+                        border: InputBorder.none,
+                        icon: Icon(Icons.email_rounded),
+                        hintText: 'Email',
+                        fillColor: Colors.white,
+                      ),
                     ),
                   ),
                 ),
@@ -212,8 +217,9 @@ class _RegisterPageState extends State<RegisterPage> {
                   onTap: signUp,
                   child: Container(
                     decoration: BoxDecoration(
-                        color: Colors.blueAccent,
-                        borderRadius: BorderRadius.circular(9)),
+                      color: Colors.blueAccent,
+                      borderRadius: BorderRadius.circular(9),
+                    ),
                     padding: EdgeInsets.all(18),
                     child: Center(
                       child: Text(
@@ -238,7 +244,9 @@ class _RegisterPageState extends State<RegisterPage> {
                   child: Text(
                     "Login Now",
                     style: TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.blue),
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue,
+                    ),
                   ),
                 ),
               ],
