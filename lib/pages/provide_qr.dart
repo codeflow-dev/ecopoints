@@ -19,7 +19,7 @@ class ProvideQRPage extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(color: Colors.white),
               child: QrImageView(
-                  data: "{'type': 'provide_transaction', 'id': '$id'}"),
+                  data: "{\"type\": \"provide_transaction\", \"id\": \"$id\"}"),
             ),
           ),
           Text(
