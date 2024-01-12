@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecopoints/pages/provide_qr.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class CalculatePage extends StatefulWidget {
@@ -13,9 +14,11 @@ class CalculatePage extends StatefulWidget {
 
 class _CalculatePageState extends State<CalculatePage> {
   final items = [
-    ItemRow("Plastic", 10),
-    ItemRow("Plastic", 10),
-    ItemRow("Plastic", 10),
+    ItemRow("plastic", 35),
+    ItemRow("carton", 8),
+    ItemRow("iron", 50),
+    ItemRow("paper", 27),
+    ItemRow("bottle", 28),
   ];
 
   int totalPoints() {
@@ -39,7 +42,8 @@ class _CalculatePageState extends State<CalculatePage> {
                 for (var item in items)
                   TableRow(
                     children: [
-                      TableTextCell(item.name),
+                      TableTextCell(
+                          item.name[0].toUpperCase() + item.name.substring(1)),
                       RoundedTextField(
                         editingController: item.quantityController,
                         onChanged: (value) {
@@ -92,6 +96,13 @@ class _CalculatePageState extends State<CalculatePage> {
                 final id = await FirebaseFirestore.instance
                     .collection("provide_transactions")
                     .add({"points": totalPoints(), "received": false});
+                final doc = FirebaseFirestore.instance
+                    .collection("agent")
+                    .doc(FirebaseAuth.instance.currentUser!.uid);
+                for (var item in items) {
+                  await doc
+                      .update({item.name: FieldValue.increment(item.quan)});
+                }
                 if (mounted) {
                   Navigator.of(context).pop();
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
