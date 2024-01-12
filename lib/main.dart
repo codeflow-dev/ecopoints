@@ -1,7 +1,7 @@
 // ignore_for_file: require_trailing_commas
 
-import 'package:ecopoints/pages/buyer_page.dart';
 import 'package:ecopoints/pages/store.dart';
+import 'package:ecopoints/pages/welcome_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
       darkTheme: ThemeData(colorScheme: darkColorScheme),
       // home: BuyerPage(),
       //home: AgentLocation(),
-      home: BuyerPage(),
+      home: WelcomePage(),
       themeMode: ThemeMode.dark,
     );
   }
