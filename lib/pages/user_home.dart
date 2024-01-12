@@ -106,6 +106,7 @@ class NavCard extends StatelessWidget {
                 SizedBox(height: 10),
                 Text(
                   text,
+                  textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 18),
                 ),
               ],
