@@ -47,32 +47,34 @@ class _CartPageState extends State<CartPage> {
               "*Please swipe left to remove an item from the cart",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: value.cart.length,
-              itemBuilder: (context, index) {
-                final item = value.cart[index];
-                return Dismissible(
-                    key: UniqueKey(),
-                    onDismissed: (direction) {
-                      //
-                      setState(() {
-                        for (int i = 0; i < value.itemMenu.length; i++) {
-                          if (value.itemMenu[i].name == item.name) {
-                            value.itemMenu[i].setQuantity(0);
+            Expanded(
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: value.cart.length,
+                itemBuilder: (context, index) {
+                  final item = value.cart[index];
+                  return Dismissible(
+                      key: UniqueKey(),
+                      onDismissed: (direction) {
+                        //
+                        setState(() {
+                          for (int i = 0; i < value.itemMenu.length; i++) {
+                            if (value.itemMenu[i].name == item.name) {
+                              value.itemMenu[i].setQuantity(0);
+                            }
                           }
-                        }
-                        value.deleteFromCart(item);
-                      });
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                            content:
-                                Text('${item.name} is removed from the cart')),
-                      );
-                    },
-                    background: Container(color: Colors.red),
-                    child: ItemPage(item: item));
-              },
+                          value.deleteFromCart(item);
+                        });
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                              content: Text(
+                                  '${item.name} is removed from the cart')),
+                        );
+                      },
+                      background: Container(color: Colors.red),
+                      child: ItemPage(item: item));
+                },
+              ),
             ),
           ],
         ),

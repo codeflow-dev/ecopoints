@@ -27,7 +27,12 @@ class _BuyerPageState extends State<BuyerPage> {
           IconButton(
             padding: EdgeInsets.only(right: 8),
             icon: Icon(Icons.shopping_cart),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CartPage()),
+              );
+            },
           )
         ],
       ),
