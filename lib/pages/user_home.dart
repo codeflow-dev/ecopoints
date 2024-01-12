@@ -6,17 +6,32 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class UserHomePage extends StatelessWidget {
-  UserHomePage({super.key});
+  const UserHomePage({super.key});
 
-  final agent = FirebaseFirestore.instance
-      .collection("user")
-      .doc(FirebaseAuth.instance.currentUser!.uid)
-      .get();
+  Future getUser() async {
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+    var user =
+        await FirebaseFirestore.instance.collection("user").doc(uid).get();
+    if (!user.exists) {
+      final agent =
+          (await FirebaseFirestore.instance.collection("agent").doc(uid).get())
+              .data()!;
+      await FirebaseFirestore.instance.collection("user").doc(uid).set(
+        {
+          "firstName": agent["firstName"],
+          "lastName": agent["lastName"],
+        },
+        SetOptions(merge: true),
+      );
+      user = await FirebaseFirestore.instance.collection("user").doc(uid).get();
+    }
+    return user;
+  }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: agent,
+      future: getUser(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Scaffold(
@@ -41,23 +56,38 @@ class UserHomePage extends StatelessWidget {
                 NavCard(
                   "Scan QR Code",
                   Icons.qr_code,
-                  MaterialPageRoute(
-                    builder: (context) => UserScanPage(),
-                  ),
+                  () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => UserScanPage(),
+                      ),
+                    );
+                  },
                 ),
                 NavCard(
                   "Redeem Points",
                   Icons.redeem,
-                  MaterialPageRoute(
-                    builder: (context) => UserRedeemPage(),
-                  ),
+                  () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => UserRedeemPage(data['points']),
+                      ),
+                    );
+                  },
                 ),
                 NavCard(
                   "Order Recyclables",
                   Icons.shopping_bag,
-                  MaterialPageRoute(
-                    builder: (context) => BuyerPage(),
-                  ),
+                  () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BuyerPage(),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
@@ -72,14 +102,14 @@ class UserHomePage extends StatelessWidget {
 }
 
 class NavCard extends StatelessWidget {
-  final Route route;
+  final Function() onTap;
   final String text;
   final IconData icon;
 
   const NavCard(
     this.text,
     this.icon,
-    this.route, {
+    this.onTap, {
     super.key,
   });
 
@@ -88,12 +118,7 @@ class NavCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
-        onTap: () {
-          Navigator.push(
-            context,
-            route,
-          );
-        },
+        onTap: onTap,
         child: Card(
           elevation: 0,
           color: Theme.of(context).colorScheme.surfaceVariant,

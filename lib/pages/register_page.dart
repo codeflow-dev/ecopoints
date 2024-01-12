@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecopoints/common.dart';
 import 'package:ecopoints/pages/agent_home.dart';
 import 'package:ecopoints/pages/login_page.dart';
 import 'package:ecopoints/pages/user_home.dart';
@@ -31,6 +32,8 @@ class _RegisterPageState extends State<RegisterPage> {
     try {
       if (_passwordController.text.trim() ==
           _confirmPasswordController.text.trim()) {
+        showLoadingDialog(context);
+
         final user = await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
@@ -48,6 +51,7 @@ class _RegisterPageState extends State<RegisterPage> {
             SetOptions(merge: true),
           );
           if (mounted) {
+            Navigator.pop(context);
             if (widget.role == "agent") {
               Navigator.pushReplacement(
                 context,
@@ -62,10 +66,12 @@ class _RegisterPageState extends State<RegisterPage> {
           }
         }
       } else {
-        print("both should be same");
+        showToast("Both password fields should be same.");
       }
+    } on FirebaseAuthException catch (e) {
+      showToast(e.message ?? "Error");
     } catch (e) {
-      print(e);
+      showToast(e.toString());
     }
   }
 
@@ -90,7 +96,7 @@ class _RegisterPageState extends State<RegisterPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Hello!",
+                  "Hello ${widget.role}!",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
                 ),
                 SizedBox(height: 20),

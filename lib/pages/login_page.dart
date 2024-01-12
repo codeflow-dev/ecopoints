@@ -1,5 +1,6 @@
 // ignore_for_file: non_constant_identifier_names, override_on_non_overriding_member, prefer_const_constructors_in_immutables, avoid_print, use_build_context_synchronously
 
+import 'package:ecopoints/common.dart';
 import 'package:ecopoints/pages/agent_home.dart';
 import 'package:ecopoints/pages/register_page.dart';
 import 'package:ecopoints/pages/user_home.dart';
@@ -28,19 +29,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Future Login() async {
     try {
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => AlertDialog(
-          content: Row(
-            children: [
-              CircularProgressIndicator(),
-              SizedBox(width: 10),
-              Text("Loading"),
-            ],
-          ),
-        ),
-      );
+      showLoadingDialog(context);
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
@@ -82,11 +71,10 @@ class _LoginPageState extends State<LoginPage> {
       body: Padding(
         padding: const EdgeInsets.fromLTRB(25, 50, 25, 0),
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: ListView(
             children: [
               Text(
-                "Welcome Back!",
+                "Welcome ${widget.role}!",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
               ),
               SizedBox(height: 20),

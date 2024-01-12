@@ -1,6 +1,7 @@
 // ignore_for_file: require_trailing_commas, must_be_immutable
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecopoints/common.dart';
 import 'package:ecopoints/pages/provide_qr.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -80,19 +81,7 @@ class _CalculatePageState extends State<CalculatePage> {
             ),
             ElevatedButton(
               onPressed: () async {
-                showDialog(
-                  context: context,
-                  barrierDismissible: false,
-                  builder: (context) => AlertDialog(
-                    content: Row(
-                      children: [
-                        CircularProgressIndicator(),
-                        SizedBox(width: 10),
-                        Text("Loading"),
-                      ],
-                    ),
-                  ),
-                );
+                showLoadingDialog(context);
                 final id = await FirebaseFirestore.instance
                     .collection("provide_transactions")
                     .add({"points": totalPoints(), "received": false});

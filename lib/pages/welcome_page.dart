@@ -37,9 +37,13 @@ class WelcomePage extends StatelessWidget {
                         onPressed: () => _navigateToSecondPage(context, "user"),
                         child: Text(
                           'Provide or buy recyclable now!',
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 25),
                         )),
+                    SizedBox(
+                      height: 20,
+                    ),
                     ElevatedButton(
                         onPressed: () =>
                             _navigateToSecondPage(context, "agent"),

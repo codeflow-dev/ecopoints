@@ -4,17 +4,33 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class AgentHomePage extends StatelessWidget {
-  AgentHomePage({super.key});
+  const AgentHomePage({super.key});
 
-  final agent = FirebaseFirestore.instance
-      .collection("agent")
-      .doc(FirebaseAuth.instance.currentUser!.uid)
-      .get();
+  Future getUser() async {
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+    var user =
+        await FirebaseFirestore.instance.collection("agent").doc(uid).get();
+    if (!user.exists) {
+      final agent =
+          (await FirebaseFirestore.instance.collection("user").doc(uid).get())
+              .data()!;
+      await FirebaseFirestore.instance.collection("agent").doc(uid).set(
+        {
+          "firstName": agent["firstName"],
+          "lastName": agent["lastName"],
+        },
+        SetOptions(merge: true),
+      );
+      user =
+          await FirebaseFirestore.instance.collection("agent").doc(uid).get();
+    }
+    return user;
+  }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: agent,
+      future: getUser(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Scaffold(
