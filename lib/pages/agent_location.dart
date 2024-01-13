@@ -17,7 +17,7 @@ class AgentLocation extends StatefulWidget {
 class _AgentLocationState extends State<AgentLocation> {
   AgentService agentService = AgentService();
   //store availability for each agent
-  List<bool> agentAvailability = [];
+  List<Map<String, dynamic>> agentAvailability = [];
 
   @override
   void initState() {
@@ -37,13 +37,17 @@ class _AgentLocationState extends State<AgentLocation> {
         Map<String, dynamic> data = document.data() as Map<String, dynamic>;
         int f = 0;
         for (int i = 0; i < cart.length; i++) {
-          int quantity = data['${cart[i].name}'];
-          if (quantity < cart[i].getQuantity()) {
-            f = 1;
-            break;
+          try {
+            int quantity = data['${cart[i].name}'];
+            if (quantity < cart[i].getQuantity()) {
+              f = 1;
+              break;
+            }
+          } catch (e) {
+            print("Please give full info of an agent $e");
           }
         }
-        agentAvailability.add(f == 0);
+        agentAvailability.add({'agentId': document.id, 'availability': f == 0});
       }
       setState(() {});
     } on Exception catch (error) {
@@ -90,74 +94,159 @@ class _AgentLocationState extends State<AgentLocation> {
                     child: Column(
                       children: List.generate(
                         agents.length,
-                        (index) => Card(
-                          child: SizedBox(
-                            height: 120,
-                            child: Stack(
-                              children: [
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 20),
-                                      child: ListTile(
-                                        leading: Icon(
-                                          Icons.person,
-                                          size: 45,
-                                          color: Colors.white,
-                                        ),
-                                        title: Text(
-                                          "${agents[index].name}",
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
+                        (index) => GestureDetector(
+                          onTap: agentAvailability.isNotEmpty &&
+                                  agentAvailability[index]['availability']
+                              ? () {
+                                  try {
+                                    final store = context.read<Store>();
+                                    final cart = store.cart;
+                                    FirebaseFirestore.instance
+                                        .collection('orders')
+                                        .add({
+                                      'agent': agentAvailability[index]
+                                          ['agentId'],
+                                      'bottle': store.cart
+                                          .where(
+                                              (item) => item.name == 'bottle')
+                                          .fold<int>(
+                                            0,
+                                            (previousValue, item) =>
+                                                previousValue +
+                                                    item.getQuantity() as int,
+                                          ),
+                                      'carton': store.cart
+                                          .where(
+                                              (item) => item.name == 'carton')
+                                          .fold<int>(
+                                            0,
+                                            (previousValue, item) =>
+                                                previousValue +
+                                                    item.getQuantity() as int,
+                                          ),
+                                      'iron': store.cart
+                                          .where((item) => item.name == 'iron')
+                                          .fold<int>(
+                                            0,
+                                            (previousValue, item) =>
+                                                previousValue +
+                                                    item.getQuantity() as int,
+                                          ),
+                                      'paper': store.cart
+                                          .where((item) => item.name == 'paper')
+                                          .fold<int>(
+                                            0,
+                                            (previousValue, item) =>
+                                                previousValue +
+                                                    item.getQuantity() as int,
+                                          ),
+                                      'plastic': store.cart
+                                          .where(
+                                              (item) => item.name == 'plastic')
+                                          .fold<int>(
+                                            0,
+                                            (previousValue, item) =>
+                                                previousValue +
+                                                    item.getQuantity() as int,
+                                          ),
+                                      'approved': false,
+                                    });
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text(
+                                              'Your order has been successfully placed'),
+                                          content: Text(
+                                              'Please wait for the confirmation'),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Text('OK'),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  } on Exception catch (_) {
+                                    print('Error in adding data in orders: $_');
+                                  }
+                                }
+                              : null,
+                          child: Card(
+                            child: SizedBox(
+                              height: 120,
+                              child: Stack(
+                                children: [
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 20),
+                                        child: ListTile(
+                                          leading: Icon(
+                                            Icons.person,
+                                            size: 45,
                                             color: Colors.white,
                                           ),
-                                        ),
-                                        subtitle: Text(
-                                          "${agents[index].location}",
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold,
+                                          title: Text(
+                                            "${agents[index].name}",
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          subtitle: Text(
+                                            "${agents[index].location}",
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                Positioned(
-                                  right: 50,
-                                  top: 20,
-                                  child: Icon(
-                                    agentAvailability[index]
-                                        ? Icons.task_alt_rounded
-                                        : Icons.highlight_off_rounded,
-                                    color: agentAvailability[index]
-                                        ? Color.fromARGB(255, 114, 212, 54)
-                                        : Color.fromARGB(255, 224, 56, 56),
-                                    size: 40,
+                                      )
+                                    ],
                                   ),
-                                ),
-                                Positioned(
-                                  right: 39,
-                                  top: 70,
-                                  child: Text(
-                                    agentAvailability[index]
-                                        ? "Available"
-                                        : "Unavailable",
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
+                                  Positioned(
+                                    right: 50,
+                                    top: 20,
+                                    child: Icon(
+                                      agentAvailability[index]['availability']
+                                          ? Icons.task_alt_rounded
+                                          : Icons.highlight_off_rounded,
                                       color: agentAvailability[index]
-                                          ? const Color.fromARGB(
-                                              255, 114, 212, 54)
-                                          : const Color.fromARGB(
-                                              255, 224, 56, 56),
+                                              ['availability']
+                                          ? Color.fromARGB(255, 114, 212, 54)
+                                          : Color.fromARGB(255, 224, 56, 56),
+                                      size: 40,
                                     ),
-                                    textAlign: TextAlign.center,
                                   ),
-                                ),
-                              ],
+                                  Positioned(
+                                    right: 39,
+                                    top: 70,
+                                    child: Text(
+                                      agentAvailability[index]['availability']
+                                          ? "Available"
+                                          : "Unavailable",
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                        color: agentAvailability[index]
+                                                ['availability']
+                                            ? const Color.fromARGB(
+                                                255, 114, 212, 54)
+                                            : const Color.fromARGB(
+                                                255, 224, 56, 56),
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
