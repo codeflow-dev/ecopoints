@@ -28,6 +28,7 @@ class Store extends ChangeNotifier {
   Future<void> fetchAndSetItems() async {
     try {
       List<Item> fetchedItems = await fetchItems();
+      _cart.clear();
       _itemMenu.clear();
       _itemMenu.addAll(fetchedItems);
       notifyListeners();
@@ -43,7 +44,7 @@ class Store extends ChangeNotifier {
   //   Item(name: "Bottle", price: 34, imagePath: ""),
   // ];
 
-  List<Item> _cart = [];
+  final List<Item> _cart = [];
   List<Item> get itemMenu => _itemMenu;
   List<Item> get cart => _cart;
   //adding one

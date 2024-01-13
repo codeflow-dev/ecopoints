@@ -20,7 +20,14 @@ class _BuyerPageState extends State<BuyerPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 68, 158, 71),
-        leading: Icon(Icons.arrow_back),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+            // Navigator.push(context,
+            //     MaterialPageRoute(builder: (context) => BuyerPage()));
+          },
+          icon: Icon(Icons.arrow_back),
+        ),
         title: Text("Order Now"),
         centerTitle: true,
         actions: <Widget>[
