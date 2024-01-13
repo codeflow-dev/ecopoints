@@ -40,16 +40,28 @@ class _RegisterPageState extends State<RegisterPage> {
         );
 
         if (user.user != null) {
+          Map<String, dynamic> data = {
+            "firstName": _firstNameController.text.trim(),
+            "lastName": _lastNameController.text.trim(),
+          };
+          if (widget.role == "agent") {
+            data["bottle"] = 0;
+            data["carton"] = 0;
+            data["iron"] = 0;
+            data["paper"] = 0;
+            data["plastic"] = 0;
+            data["location"] = "Unknown";
+          } else {
+            data["points"] = 0;
+          }
+
           await FirebaseFirestore.instance
               .collection(widget.role)
               .doc(user.user?.uid)
               .set(
-            {
-              "firstName": _firstNameController.text.trim(),
-              "lastName": _lastNameController.text.trim(),
-            },
-            SetOptions(merge: true),
-          );
+                data,
+                SetOptions(merge: true),
+              );
           if (mounted) {
             Navigator.pop(context);
             if (widget.role == "agent") {
