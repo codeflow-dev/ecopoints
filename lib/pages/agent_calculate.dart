@@ -40,6 +40,11 @@ class _CalculatePageState extends State<CalculatePage> {
           children: [
             Table(
               children: [
+                TableRow(children: [
+                  TableTextCell("Item name"),
+                  TableTextCell("Quantity in KG"),
+                  TableTextCell("Product")
+                ]),
                 for (var item in items)
                   TableRow(
                     children: [
