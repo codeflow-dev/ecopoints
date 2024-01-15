@@ -5,6 +5,7 @@ import 'package:ecopoints/pages/agent_details.dart';
 import 'package:ecopoints/pages/agent_order_approve_page.dart';
 import 'package:ecopoints/pages/agent_price.dart';
 import 'package:ecopoints/pages/agent_redeem_scan.dart';
+import 'package:ecopoints/pages/transaction_history.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -53,7 +54,10 @@ class AgentHomePage extends StatelessWidget {
           Map<String, dynamic> data =
               snapshot.data!.data() as Map<String, dynamic>;
           return Scaffold(
-            appBar: AppBar(title: Text("Welcome, Agent ${data['firstName']}")),
+            appBar: AppBar(
+              title: Text("Welcome, Agent ${data['firstName']}"),
+              leading: Icon(Icons.logout),
+            ),
             body: GridView.count(
               crossAxisCount: 2,
               children: [
@@ -113,6 +117,18 @@ class AgentHomePage extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) => PriceManagementPage(),
+                      ),
+                    );
+                  },
+                ),
+                NavCard(
+                  "Transaction History",
+                  Icons.history,
+                  () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TransactionHistoryPage(),
                       ),
                     );
                   },

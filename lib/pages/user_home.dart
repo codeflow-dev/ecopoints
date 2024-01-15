@@ -50,7 +50,10 @@ class UserHomePage extends StatelessWidget {
           Map<String, dynamic> data =
               snapshot.data!.data() as Map<String, dynamic>;
           return Scaffold(
-            appBar: AppBar(title: Text("Welcome, ${data['firstName']}")),
+            appBar: AppBar(
+              title: Text("Welcome, ${data['firstName']}"),
+              leading: Icon(Icons.logout),
+            ),
             body: GridView.count(
               crossAxisCount: 2,
               children: [

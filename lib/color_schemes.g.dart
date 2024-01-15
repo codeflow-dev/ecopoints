@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 const greenColor = Color(0xFF256C2C);
-const darkGreenColor = Color.fromARGB(255, 24, 69, 28);
+const darkGreenColor = Color.fromARGB(200, 29, 83, 33);
 
 const lightColorScheme = ColorScheme(
   brightness: Brightness.light,

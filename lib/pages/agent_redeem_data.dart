@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecopoints/common.dart';
 import 'package:ecopoints/pages/agent_redeem_complete.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class AgentRedeemDataPage extends StatefulWidget {
@@ -52,7 +53,10 @@ class _AgentRedeemDataPageState extends State<AgentRedeemDataPage> {
                   await FirebaseFirestore.instance
                       .collection("redeem")
                       .doc(widget.id)
-                      .update({"received": true});
+                      .update({
+                    "received": true,
+                    "agent": FirebaseAuth.instance.currentUser?.uid
+                  });
                   if (mounted) {
                     Navigator.pop(context);
                     Navigator.pushReplacement(

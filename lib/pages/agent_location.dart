@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecopoints/models/item.dart';
 import 'package:ecopoints/pages/agent.dart';
 import 'package:ecopoints/pages/store.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -106,6 +107,8 @@ class _AgentLocationState extends State<AgentLocation> {
                                         .add({
                                       'agent': agentAvailability[index]
                                           ['agentId'],
+                                      'user': FirebaseAuth
+                                          .instance.currentUser?.uid,
                                       'bottle': store.cart
                                           .where(
                                               (item) => item.name == 'bottle')
