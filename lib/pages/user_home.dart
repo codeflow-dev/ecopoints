@@ -52,7 +52,12 @@ class UserHomePage extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               title: Text("Welcome, ${data['firstName']}"),
-              leading: Icon(Icons.logout),
+              leading: IconButton(
+                icon: Icon(Icons.logout),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
             ),
             body: GridView.count(
               crossAxisCount: 2,
