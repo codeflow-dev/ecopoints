@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecopoints/common.dart';
 import 'package:ecopoints/pages/agent_calculate.dart';
+import 'package:ecopoints/pages/agent_details.dart';
 import 'package:ecopoints/pages/agent_redeem_scan.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -74,6 +75,18 @@ class AgentHomePage extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) => AgentRedeemScanPage(),
+                      ),
+                    );
+                  },
+                ),
+                NavCard(
+                  "Profile settings",
+                  Icons.person,
+                  () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AgentDetailsPage(),
                       ),
                     );
                   },
