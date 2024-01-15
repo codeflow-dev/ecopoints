@@ -1,4 +1,4 @@
-// ignore_for_file: unused_local_variable, unnecessary_string_interpolations, require_trailing_commas, avoid_print
+// ignore_for_file: unused_local_variable, unnecessary_string_interpolations, require_trailing_commas, avoid_print, use_super_parameters, library_private_types_in_public_api
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecopoints/models/item.dart';
