@@ -23,10 +23,11 @@ class WelcomePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Ecopoint",
+                  "Ecopoints",
                   style: TextStyle(
                     fontSize: 50,
                     fontWeight: FontWeight.bold,
+                    color: Color(0xFFA9F5A4),
                   ),
                   textAlign: TextAlign.center,
                 ),
