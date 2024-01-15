@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecopoints/color_schemes.g.dart';
 import 'package:ecopoints/common.dart';
+import 'package:ecopoints/pages/redeem_qr.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -159,11 +160,25 @@ class _UserRedeemPageState extends State<UserRedeemPage> {
             );
           }
           showLoadingDialog(context);
-          // await FirebaseFirestore.instance
-          //     .collection("user")
-          //     .doc(FirebaseAuth.instance.currentUser!.uid)
-          //     .update({"points": FieldValue.increment(-totalPoints())});
-          // We need to implement QR, otherwise all users' redeems will be listed in the "Approve" page.
+          await FirebaseFirestore.instance
+              .collection("user")
+              .doc(FirebaseAuth.instance.currentUser!.uid)
+              .update({"points": FieldValue.increment(-totalPoints())});
+          Map<String, dynamic> data = {};
+          for (var item in items) {
+            data[item.name] = item.quantity;
+          }
+          data["received"] = false;
+          final redeem =
+              await FirebaseFirestore.instance.collection("redeem").add(data);
+          if (mounted) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => RedeemQRPage(redeem.id),
+              ),
+            );
+          }
         },
         label: Text("Redeem"),
         icon: Icon(Icons.add_task_sharp),

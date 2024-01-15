@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecopoints/common.dart';
 import 'package:ecopoints/pages/agent_calculate.dart';
+import 'package:ecopoints/pages/agent_redeem_scan.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -52,36 +54,29 @@ class AgentHomePage extends StatelessWidget {
             body: GridView.count(
               crossAxisCount: 2,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CalculatePage(),
-                        ),
-                      );
-                    },
-                    child: Card(
-                      elevation: 0,
-                      color: Theme.of(context).colorScheme.surfaceVariant,
-                      child: Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.calculate, size: 40),
-                            SizedBox(height: 10),
-                            Text(
-                              "Calculate Points",
-                              style: TextStyle(fontSize: 18),
-                            ),
-                          ],
-                        ),
+                NavCard(
+                  "Calculate Points",
+                  Icons.calculate,
+                  () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CalculatePage(),
                       ),
-                    ),
-                  ),
+                    );
+                  },
+                ),
+                NavCard(
+                  "Scan Redeem QR",
+                  Icons.qr_code,
+                  () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AgentRedeemScanPage(),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
