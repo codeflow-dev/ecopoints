@@ -69,7 +69,10 @@ class _ItemPageState extends State<ItemPage> {
                             //     fit: BoxFit.contain, // or desired fit option
                             //   ),
                             // ),
-                            leading: Icon(Icons.apple),
+                            leading: Icon(
+                              Icons.shopify,
+                              size: 30,
+                            ),
                             title: Text(
                               "${widget.item.name}",
                               style: TextStyle(
