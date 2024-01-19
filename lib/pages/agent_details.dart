@@ -15,6 +15,7 @@ class _AgentDetailsPageState extends State<AgentDetailsPage> {
   final lastNameController = TextEditingController();
   final newPasswordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
+  final locationController = TextEditingController();
 
   final uid = FirebaseAuth.instance.currentUser!.uid;
 
@@ -46,6 +47,7 @@ class _AgentDetailsPageState extends State<AgentDetailsPage> {
               snapshot.data!.data() as Map<String, dynamic>;
           firstNameController.text = data["firstName"];
           lastNameController.text = data["lastName"];
+          locationController.text = data["location"];
           return Scaffold(
             appBar: AppBar(title: Text("Profile settings")),
             floatingActionButton: FloatingActionButton.extended(
@@ -54,6 +56,7 @@ class _AgentDetailsPageState extends State<AgentDetailsPage> {
                 Map<String, dynamic> newData = {
                   "firstName": firstNameController.text.trim(),
                   "lastName": lastNameController.text.trim(),
+                  "location": locationController.text.trim(),
                 };
                 if (newPasswordController.text.trim().isNotEmpty) {
                   try {
@@ -120,6 +123,14 @@ class _AgentDetailsPageState extends State<AgentDetailsPage> {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Confirm New Password',
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    TextField(
+                      controller: locationController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Location',
                       ),
                     ),
                     SizedBox(height: 20),

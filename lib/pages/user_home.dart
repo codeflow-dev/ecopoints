@@ -21,6 +21,7 @@ class UserHomePage extends StatelessWidget {
         {
           "firstName": agent["firstName"],
           "lastName": agent["lastName"],
+          "points": 0,
         },
         SetOptions(merge: true),
       );
@@ -58,6 +59,16 @@ class UserHomePage extends StatelessWidget {
                   Navigator.pop(context);
                 },
               ),
+              actions: [
+                Row(
+                  children: [
+                    Icon(Icons.account_balance),
+                    SizedBox(width: 5),
+                    Text(data["points"].toString()),
+                    SizedBox(width: 15)
+                  ],
+                )
+              ],
             ),
             body: GridView.count(
               crossAxisCount: 2,
@@ -81,7 +92,8 @@ class UserHomePage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => UserRedeemPage(data['points']),
+                        builder: (context) =>
+                            UserRedeemPage(data['points'] ?? 0),
                       ),
                     );
                   },

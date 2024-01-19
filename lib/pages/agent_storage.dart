@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecopoints/pages/agent_calculate.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class StoragePage extends StatelessWidget {
+  const StoragePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,26 +38,45 @@ class StoragePage extends StatelessWidget {
                   "Agent Inventory for ${agentData['firstName']} ${agentData['lastName']}",
                 ),
                 SizedBox(height: 20),
-                buildInventoryRow('Bottle', agentData['bottle']),
-                buildInventoryRow('Carton', agentData['carton']),
-                buildInventoryRow('Iron', agentData['iron']),
-                buildInventoryRow('Paper', agentData['paper']),
-                buildInventoryRow('Plastic', agentData['plastic']),
+                Table(
+                  children: [
+                    TableRow(
+                      children: [
+                        TableTextCell("Bottle"),
+                        TableTextCell(agentData['bottle'].toString()),
+                      ],
+                    ),
+                    TableRow(
+                      children: [
+                        TableTextCell("Carton"),
+                        TableTextCell(agentData['carton'].toString()),
+                      ],
+                    ),
+                    TableRow(
+                      children: [
+                        TableTextCell("Iron"),
+                        TableTextCell(agentData['iron'].toString()),
+                      ],
+                    ),
+                    TableRow(
+                      children: [
+                        TableTextCell("Paper"),
+                        TableTextCell(agentData['paper'].toString()),
+                      ],
+                    ),
+                    TableRow(
+                      children: [
+                        TableTextCell("Plastic"),
+                        TableTextCell(agentData['plastic'].toString()),
+                      ],
+                    ),
+                  ],
+                ),
               ],
             ),
           );
         },
       ),
-    );
-  }
-
-  Widget buildInventoryRow(String itemName, dynamic quantity) {
-    // Use null-aware operator to handle potential null value or non-int value
-    final displayQuantity = quantity is int ? quantity : 0;
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Text('$itemName: $displayQuantity (number)'),
     );
   }
 

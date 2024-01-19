@@ -172,7 +172,8 @@ class _UserRedeemPageState extends State<UserRedeemPage> {
           final redeem =
               await FirebaseFirestore.instance.collection("redeem").add(data);
           if (mounted) {
-            Navigator.push(
+            Navigator.pop(context);
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) => RedeemQRPage(redeem.id),
