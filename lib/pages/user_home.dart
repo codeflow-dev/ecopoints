@@ -3,6 +3,7 @@ import 'package:ecopoints/pages/buyer_page.dart';
 import 'package:ecopoints/pages/user_details.dart';
 import 'package:ecopoints/pages/user_redeem.dart';
 import 'package:ecopoints/pages/user_scan.dart';
+import 'package:ecopoints/pages/welcome_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -57,6 +58,8 @@ class UserHomePage extends StatelessWidget {
                 icon: Icon(Icons.logout),
                 onPressed: () {
                   Navigator.pop(context);
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => WelcomePage()));
                 },
               ),
               actions: [

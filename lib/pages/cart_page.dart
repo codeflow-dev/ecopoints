@@ -36,7 +36,7 @@ class _CartPageState extends State<CartPage> {
               // Navigator.push(context,
               //     MaterialPageRoute(builder: (context) => BuyerPage()));
             },
-            icon: Icon(Icons.arrow_back_rounded),
+            icon: Icon(Icons.arrow_back),
           ),
           title: Text("MY CART"),
           centerTitle: true,
