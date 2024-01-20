@@ -1,4 +1,4 @@
-// ignore_for_file: require_trailing_commas, avoid_print, prefer_adjacent_string_concatenation, unused_local_variable, unnecessary_string_interpolations
+// ignore_for_file: require_trailing_commas, avoid_print, prefer_adjacent_string_concatenation, unused_local_variable, unnecessary_string_interpolations, unrelated_type_equality_checks
 
 import 'package:ecopoints/models/item.dart';
 import 'package:ecopoints/pages/store.dart';
@@ -50,29 +50,22 @@ class _ItemPageState extends State<ItemPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           ListTile(
-                            // leading: Center(
-                            //   child: Container(
-                            //     alignment: Alignment.center,
-                            //     decoration: BoxDecoration(
-                            //         image: DecorationImage(
-                            //           fit: BoxFit.contain,
-                            //           image: AssetImage('assets/bottle.png'),
-                            //         ),
-                            //         borderRadius: BorderRadius.circular(5)),
-                            //   ),
-                            // ),
-                            // leading: Center(
-                            //   child: Image.asset(
-                            //     'assets/bottle.png',
-                            //     width: 100,
-                            //     height: 100,
-                            //     fit: BoxFit.contain, // or desired fit option
-                            //   ),
-                            // ),
-                            leading: Icon(
-                              Icons.shopify,
-                              size: 30,
+                            leading: ClipRRect(
+                              borderRadius: BorderRadius.circular(90),
+                              child: Image.asset(
+                                widget.item.imagePath == ""
+                                    ? 'assets/bottle.png'
+                                    : widget.item.imagePath,
+                                width: 60,
+                                height: 60,
+                                fit: BoxFit.cover, // or desired fit option
+                              ),
                             ),
+                            // ),
+                            // leading: Icon(
+                            //   Icons.shopify,
+                            //   size: 30,
+                            // ),
                             title: Text(
                               "${widget.item.name}",
                               style: TextStyle(
