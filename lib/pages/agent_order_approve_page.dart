@@ -346,7 +346,7 @@ class _AgentOrderApprovePageState extends State<AgentOrderApprovePage> {
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: Icon(Icons.chevron_left),
+            icon: Icon(Icons.arrow_back),
           ),
           title: Text("Orders"),
           centerTitle: true,

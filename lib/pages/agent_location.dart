@@ -68,7 +68,7 @@ class _AgentLocationState extends State<AgentLocation> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(Icons.chevron_left),
+          icon: Icon(Icons.arrow_back),
         ),
         title: Text("Choose an Agent"),
         centerTitle: true,
@@ -167,6 +167,8 @@ class _AgentLocationState extends State<AgentLocation> {
                                             TextButton(
                                               onPressed: () {
                                                 Navigator.of(context).pop();
+                                                Navigator.of(context).popUntil(
+                                                    (route) => route.isFirst);
                                                 Navigator.pushReplacement(
                                                     context,
                                                     MaterialPageRoute(
