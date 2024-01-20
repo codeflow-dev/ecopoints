@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecopoints/models/item.dart';
 import 'package:ecopoints/pages/agent.dart';
 import 'package:ecopoints/pages/store.dart';
+import 'package:ecopoints/pages/user_home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -166,6 +167,11 @@ class _AgentLocationState extends State<AgentLocation> {
                                             TextButton(
                                               onPressed: () {
                                                 Navigator.of(context).pop();
+                                                Navigator.pushReplacement(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            UserHomePage()));
                                               },
                                               child: Text('OK'),
                                             ),

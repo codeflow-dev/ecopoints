@@ -10,7 +10,8 @@ class StoragePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Stored Iteams'),
+        title: Text('Stored Items'),
+        centerTitle: true,
       ),
       body: FutureBuilder(
         future: getAgentData(),
@@ -36,6 +37,7 @@ class StoragePage extends StatelessWidget {
               children: [
                 Text(
                   "Agent Inventory for ${agentData['firstName']} ${agentData['lastName']}",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
                 SizedBox(height: 20),
                 Table(

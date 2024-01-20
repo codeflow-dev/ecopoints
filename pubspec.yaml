@@ -42,7 +42,6 @@ dependencies:
   mobile_scanner: 3.5.5
   fluttertoast: ^8.2.4
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -68,6 +67,11 @@ flutter:
   assets:
     - assets/plant.png
     - assets/bottle.png
+    - assets/carton.jpg
+    - assets/iron.jpg
+    - assets/paper.jpg
+    - assets/plastic.jpg
+
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
