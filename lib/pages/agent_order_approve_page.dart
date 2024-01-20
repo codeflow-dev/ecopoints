@@ -1,4 +1,4 @@
-// ignore_for_file: use_super_parameters, library_private_types_in_public_api, avoid_print, avoid_function_literals_in_foreach_calls, require_trailing_commas, unnecessary_string_interpolations
+// ignore_for_file: use_super_parameters, library_private_types_in_public_api, avoid_print, avoid_function_literals_in_foreach_calls, require_trailing_commas, unnecessary_string_interpolations, unused_local_variable
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -129,13 +129,45 @@ class _AgentOrderApprovePageState extends State<AgentOrderApprovePage> {
     }
   }
 
-  Future<void> approveOrder(String orderId) async {
+  Future<void> approveOrder(Map<String, dynamic> order) async {
     try {
+      //print(order);
+      String orderId = order['orderId'];
       final CollectionReference<Map<String, dynamic>> collectionRef =
           FirebaseFirestore.instance.collection('orders');
       await collectionRef.doc(orderId).update({'approved': true});
+      //decrementing quantity
+      DocumentSnapshot<Map<String, dynamic>> orderSnapshot =
+          await collectionRef.doc(orderId).get();
+
+      String agentId = orderSnapshot.data()!['agent'];
+      //print("OKKK $agentId");
+      final CollectionReference<Map<String, dynamic>> agentCollection =
+          FirebaseFirestore.instance.collection('agent');
+      DocumentSnapshot<Map<String, dynamic>> agentSnapshot =
+          await agentCollection.doc(agentId).get();
+      //print("alll ${agentSnapshot.data()}");
+      //print("ordersssss$orders");
+      for (var entry in order.entries) {
+        var agentFieldValue = agentSnapshot.data()![entry.key];
+        if (agentFieldValue is num) {
+          await agentSnapshot.reference
+              .update({entry.key: FieldValue.increment(-entry.value)});
+        }
+      }
+      //print("update: ${agentSnapshot.data()}");
     } on Exception catch (_) {
       print("Failed to approved $_");
+    }
+  }
+
+  Future<void> rejctOrder(String orderId) async {
+    try {
+      final CollectionReference<Map<String, dynamic>> collectionRef =
+          FirebaseFirestore.instance.collection('orders');
+      await collectionRef.doc(orderId).delete();
+    } on Exception catch (_) {
+      print("Failed to rejct $_");
     }
   }
 
@@ -395,20 +427,73 @@ class _AgentOrderApprovePageState extends State<AgentOrderApprovePage> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(width: 16.0),
-                                ElevatedButton(
-                                  onPressed: () async {
-                                    try {
-                                      await approveOrder(order['orderId']);
-                                      setState(() {
-                                        orders = getOrders();
-                                      });
-                                    } on Exception catch (error) {
-                                      print("Error approving order: $error");
-                                    }
-                                  },
-                                  child: Text('Approve'),
-                                ),
+                                SizedBox(width: 8.0),
+                                GestureDetector(
+                                    onTap: () async {
+                                      try {
+                                        await approveOrder(order);
+
+                                        setState(() {
+                                          orders = getOrders();
+                                        });
+                                      } on Exception catch (error) {
+                                        print("Error approving order: $error");
+                                      }
+                                    },
+                                    child: Text(
+                                      "Approve",
+                                      style: TextStyle(
+                                          color:
+                                              Color.fromARGB(255, 80, 186, 82),
+                                          fontWeight: FontWeight.bold),
+                                    )),
+                                SizedBox(width: 8.0),
+                                GestureDetector(
+                                    onTap: () async {
+                                      try {
+                                        await rejctOrder(order['orderId']);
+                                        setState(() {
+                                          orders = getOrders();
+                                        });
+                                      } on Exception catch (error) {
+                                        print("Error approving order: $error");
+                                      }
+                                    },
+                                    child: Text(
+                                      "Reject",
+                                      style: TextStyle(
+                                          color:
+                                              Color.fromARGB(255, 208, 66, 66),
+                                          fontWeight: FontWeight.bold),
+                                    )),
+
+                                // ElevatedButton(
+                                //   onPressed: () async {
+                                //     try {
+                                //       await approveOrder(order['orderId']);
+                                //       setState(() {
+                                //         orders = getOrders();
+                                //       });
+                                //     } on Exception catch (error) {
+                                //       print("Error approving order: $error");
+                                //     }
+                                //   },
+                                //   child: Text('Approve'),
+                                // ),
+                                // SizedBox(width: 0.0),
+                                // ElevatedButton(
+                                //   onPressed: () async {
+                                //     try {
+                                //       await approveOrder(order['orderId']);
+                                //       setState(() {
+                                //         orders = getOrders();
+                                //       });
+                                //     } on Exception catch (error) {
+                                //       print("Error approving order: $error");
+                                //     }
+                                //   },
+                                //   child: Text('Reject'),
+                                // ),
                               ],
                             ),
                             subtitle: Padding(
