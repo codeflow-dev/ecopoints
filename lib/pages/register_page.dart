@@ -1,6 +1,7 @@
+// ignore_for_file: unused_label
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecopoints/common.dart';
-import 'package:ecopoints/pages/agent_home.dart';
 import 'package:ecopoints/pages/login_page.dart';
 import 'package:ecopoints/pages/user_home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -65,10 +66,29 @@ class _RegisterPageState extends State<RegisterPage> {
           if (mounted) {
             Navigator.pop(context);
             if (widget.role == "agent") {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => AgentHomePage()),
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('New agent has been added'),
+                    // content: Text('Operation successful'),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () {
+                          // Navigator.of(context).pop(true);
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('OK'),
+                      ),
+                    ],
+                  );
+                },
               );
+              // Navigator.of(context).pop();
+              // Navigator.pushReplacement(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => AgentHomePage()),
+              // );
             } else {
               Navigator.pushReplacement(
                 context,
@@ -108,7 +128,7 @@ class _RegisterPageState extends State<RegisterPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Hello ${widget.role}!",
+                  "Hello ${widget.role == 'agent' ? "Admin" : "User"} !",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
                 ),
                 SizedBox(height: 20),
@@ -253,20 +273,25 @@ class _RegisterPageState extends State<RegisterPage> {
                 SizedBox(
                   height: 20,
                 ),
-                Text(
-                  "Already have an account?",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                GestureDetector(
-                  onTap: () => _navigateToSecondPage(context),
-                  child: Text(
-                    "Login Now",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blue,
-                    ),
+                if (widget.role == 'user')
+                  Column(
+                    children: [
+                      Text(
+                        "Already have an account?",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      GestureDetector(
+                        onTap: () => _navigateToSecondPage(context),
+                        child: Text(
+                          "Login Now",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
               ],
             ),
           ),

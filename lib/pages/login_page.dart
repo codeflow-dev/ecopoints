@@ -154,20 +154,25 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(
                   height: 20,
                 ),
-                Text(
-                  "Don't have an account?",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                GestureDetector(
-                  onTap: () => _navigateToSecondPage(context),
-                  child: Text(
-                    "Register Now",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blue,
-                    ),
-                  ),
-                ),
+                if (widget.role == "user")
+                  Column(
+                    children: [
+                      Text(
+                        "Don't have an account?",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      GestureDetector(
+                        onTap: () => _navigateToSecondPage(context),
+                        child: Text(
+                          "Register Now",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
               ],
             ),
           ),

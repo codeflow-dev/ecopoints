@@ -6,6 +6,7 @@ import 'package:ecopoints/pages/agent_order_approve_page.dart';
 import 'package:ecopoints/pages/agent_price.dart';
 import 'package:ecopoints/pages/agent_redeem_scan.dart';
 import 'package:ecopoints/pages/agent_storage.dart';
+import 'package:ecopoints/pages/register_page.dart';
 import 'package:ecopoints/pages/transaction_history.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -56,7 +57,9 @@ class AgentHomePage extends StatelessWidget {
               snapshot.data!.data() as Map<String, dynamic>;
           return Scaffold(
             appBar: AppBar(
-              title: Text("Welcome, Agent ${data['firstName']}"),
+              title: Text(
+                "Welcome, ${data.containsKey('admin') && data['admin'] == true ? "Admin" : "Agent"} ${data['firstName']}",
+              ),
               leading: IconButton(
                 icon: Icon(Icons.logout),
                 onPressed: () {
@@ -115,18 +118,34 @@ class AgentHomePage extends StatelessWidget {
                     );
                   },
                 ),
-                NavCard(
-                  "Price manager",
-                  Icons.money,
-                  () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => PriceManagementPage(),
-                      ),
-                    );
-                  },
-                ),
+                if (data.containsKey('admin') && data['admin'] == true)
+                  NavCard(
+                    "Price manager",
+                    Icons.money,
+                    () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PriceManagementPage(),
+                        ),
+                      );
+                    },
+                  ),
+                if (data.containsKey('admin') && data['admin'] == true)
+                  NavCard(
+                    "Add Agent",
+                    Icons.add,
+                    () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RegisterPage(
+                            role: 'agent',
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 NavCard(
                   "Transaction History",
                   Icons.history,
