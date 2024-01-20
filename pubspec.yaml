@@ -41,6 +41,7 @@ dependencies:
   provider:
   mobile_scanner: 3.5.5
   fluttertoast: ^8.2.4
+  flutter_osm_plugin: ^0.70.4
 
 dev_dependencies:
   flutter_test:

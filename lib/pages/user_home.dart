@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecopoints/pages/buyer_page.dart';
 import 'package:ecopoints/pages/user_details.dart';
+import 'package:ecopoints/pages/user_location.dart';
 import 'package:ecopoints/pages/user_redeem.dart';
 import 'package:ecopoints/pages/user_scan.dart';
 import 'package:ecopoints/pages/welcome_page.dart';
@@ -121,6 +122,18 @@ class UserHomePage extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) => UserDetailsPage(),
+                      ),
+                    );
+                  },
+                ),
+                NavCard(
+                  "Show agent locations",
+                  Icons.location_pin,
+                  () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => UserLocationPage(),
                       ),
                     );
                   },

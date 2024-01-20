@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecopoints/common.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_osm_plugin/flutter_osm_plugin.dart' as osm;
 
 class AgentDetailsPage extends StatefulWidget {
   const AgentDetailsPage({super.key});
@@ -135,6 +136,35 @@ class _AgentDetailsPageState extends State<AgentDetailsPage> {
                       ),
                     ),
                     SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () async {
+                        final position = await osm.showSimplePickerLocation(
+                          context: context,
+                          title: "Choose your location",
+                          textConfirmPicker: "Change",
+                          textCancelPicker: "Cancel",
+                          initPosition: osm.GeoPoint(
+                            latitude: data["latitude"] ?? 22.3752,
+                            longitude: data["longitude"] ?? 91.8349,
+                          ),
+                          zoomOption: osm.ZoomOption(initZoom: 12),
+                        );
+                        if (position != null) {
+                          await FirebaseFirestore.instance
+                              .collection("agent")
+                              .doc(uid)
+                              .set(
+                            {
+                              "latitude": position.latitude,
+                              "longitude": position.longitude,
+                            },
+                            SetOptions(merge: true),
+                          );
+                          showToast("Location updated");
+                        }
+                      },
+                      child: Text("Choose location"),
+                    ),
                   ],
                 ),
               ),
