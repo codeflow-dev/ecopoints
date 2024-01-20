@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:ecopoints/pages/store.dart';
-import 'package:ecopoints/pages/user_location.dart';
 import 'package:ecopoints/pages/welcome_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

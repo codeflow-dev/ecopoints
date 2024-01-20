@@ -22,87 +22,48 @@ class WelcomePage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                Card(
+                  semanticContainer: true,
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  elevation: 10,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)),
+                  child: Image.asset(
+                    "assets/ecopoints-reference.jpg",
+                  ),
+                ),
                 Text(
-                  "Ecopoints",
+                  "EcoPoints",
                   style: TextStyle(
-                    fontSize: 50,
+                    fontSize: 32,
                     fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 30),
-                Column(
+                Table(
+                  defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                   children: [
-                    ElevatedButton(
-                        onPressed: () => _navigateToSecondPage(context, "user"),
-                        child: Text(
-                          'Provide or buy recyclable now!',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 25),
-                        )),
-                    SizedBox(
-                      height: 20,
+                    TableRow(
+                      children: [
+                        Text("To provide recyclables and earn points..."),
+                        ElevatedButton(
+                            onPressed: () =>
+                                _navigateToSecondPage(context, "user"),
+                            child: Text('Login as user')),
+                      ],
                     ),
-                    ElevatedButton(
-                        onPressed: () =>
-                            _navigateToSecondPage(context, "agent"),
-                        child: Text(
-                          'Agent',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 18),
-                        )),
-                    // ElevatedButton(
-                    //   onPressed: () {
-                    //     Navigator.push(
-                    //         context,
-                    //         MaterialPageRoute(
-                    //             builder: ((context) => BuyerPage())));
-                    //   },
-                    //   child: Text("HI"),
-                    // ),
+                    TableRow(children: [
+                      Text("If you are an agent..."),
+                      ElevatedButton(
+                          onPressed: () =>
+                              _navigateToSecondPage(context, "agent"),
+                          child: Text('Login as agent')),
+                    ])
                   ],
                 ),
-                // SizedBox(height: 20),
-                // GestureDetector(
-                //   onTap: () {},
-                //   child: Container(
-                //     height: 60,
-                //     width: 200,
-                //     decoration: BoxDecoration(
-                //       color: Color.fromARGB(255, 146, 189, 154),
-                //       borderRadius: BorderRadius.circular(30),
-                //       boxShadow: [
-                //         BoxShadow(
-                //             color: Color.fromARGB(255, 4, 28, 57),
-                //             spreadRadius: 1,
-                //             blurRadius: 8,
-                //             offset: Offset(4, 4)),
-                //         BoxShadow(
-                //             color: Color.fromARGB(255, 11, 63, 127),
-                //             spreadRadius: 2,
-                //             blurRadius: 8,
-                //             offset: Offset(-4, -4))
-                //       ],
-                //     ),
-                //     padding: EdgeInsets.all(10),
-                //     child: Center(
-                //       child: Text(
-                //         'Login',
-                //         style: TextStyle(
-                //             fontSize: 30,
-                //             fontWeight: FontWeight.bold,
-                //             color: (Color.fromARGB(255, 18, 124, 132))),
-                //       ),
-                //     ),
-                //   ),
-                // ),
                 SizedBox(
-                  height: 20,
+                  height: 60,
                 ),
-                Image.asset(
-                  "assets/plant.png",
-                )
               ],
             ),
           ),

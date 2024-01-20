@@ -59,8 +59,10 @@ class UserHomePage extends StatelessWidget {
                 icon: Icon(Icons.logout),
                 onPressed: () {
                   Navigator.pop(context);
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => WelcomePage()));
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => WelcomePage()),
+                  );
                 },
               ),
               actions: [

@@ -8,7 +8,7 @@ class UserLocationPage extends StatelessWidget {
 
   final agentDocs = FirebaseFirestore.instance.collection("agent").get();
 
-  MapController controller = MapController.withPosition(
+  final MapController controller = MapController.withPosition(
     initPosition: osm.GeoPoint(
       latitude: 23.777176,
       longitude: 90.399452,
@@ -18,57 +18,57 @@ class UserLocationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: agentDocs,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Scaffold(
-              appBar: AppBar(title: Text("Error")),
-            );
-          }
-
-          if (snapshot.hasData && snapshot.data!.docs.isEmpty) {
-            return Scaffold(
-              appBar: AppBar(title: Text("Error loading agents")),
-            );
-          }
-
-          if (snapshot.connectionState == ConnectionState.done) {
-            final agentDocs = snapshot.data!.docs;
-            final agents = agentDocs.where((element) {
-              final data = element.data();
-              return data.containsKey("latitude") &&
-                  data.containsKey("longitude");
-            }).map((e) {
-              final data = e.data();
-              return StaticPositionGeoPoint(
-                  e.id,
-                  MarkerIcon(
-                    icon: Icon(
-                      Icons.person,
-                      color: Colors.green,
-                      size: 32,
-                    ),
-                  ),
-                  [
-                    osm.GeoPoint(
-                      latitude: data["latitude"],
-                      longitude: data["longitude"],
-                    )
-                  ]);
-            }).toList();
-            print(agents);
-            return Scaffold(
-              appBar: AppBar(title: Text("Agent Locations")),
-              body: MapWidget(
-                controller: controller,
-                points: agents,
-              ),
-            );
-          }
+      future: agentDocs,
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
           return Scaffold(
-            appBar: AppBar(title: Text("Loading...")),
+            appBar: AppBar(title: Text("Error")),
           );
-        });
+        }
+
+        if (snapshot.hasData && snapshot.data!.docs.isEmpty) {
+          return Scaffold(
+            appBar: AppBar(title: Text("Error loading agents")),
+          );
+        }
+
+        if (snapshot.connectionState == ConnectionState.done) {
+          final agentDocs = snapshot.data!.docs;
+          final agents = agentDocs.where((element) {
+            final data = element.data();
+            return data.containsKey("latitude") &&
+                data.containsKey("longitude");
+          }).map((e) {
+            final data = e.data();
+            return StaticPositionGeoPoint(
+                e.id,
+                MarkerIcon(
+                  icon: Icon(
+                    Icons.person,
+                    color: Colors.green,
+                    size: 32,
+                  ),
+                ),
+                [
+                  osm.GeoPoint(
+                    latitude: data["latitude"],
+                    longitude: data["longitude"],
+                  ),
+                ]);
+          }).toList();
+          return Scaffold(
+            appBar: AppBar(title: Text("Agent Locations")),
+            body: MapWidget(
+              controller: controller,
+              points: agents,
+            ),
+          );
+        }
+        return Scaffold(
+          appBar: AppBar(title: Text("Loading...")),
+        );
+      },
+    );
   }
 }
 
