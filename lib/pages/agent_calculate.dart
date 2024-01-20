@@ -14,17 +14,63 @@ class CalculatePage extends StatefulWidget {
 }
 
 class _CalculatePageState extends State<CalculatePage> {
-  final items = [
-    ItemRow("plastic", 35),
-    ItemRow("carton", 8),
-    ItemRow("iron", 50),
-    ItemRow("paper", 27),
-    ItemRow("bottle", 28),
-  ];
+  List<ItemRow> items = [];
 
+  @override
+  void initState() {
+    super.initState();
+    getItems();
+  }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> getItems() async {
+    return await FirebaseFirestore.instance.collection("item").get();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: getItems(),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Scaffold(
+            appBar: AppBar(title: Text("Error")),
+          );
+        }
+
+        if (snapshot.hasData && snapshot.data!.docs.isEmpty) {
+          return Scaffold(
+            appBar: AppBar(title: Text("Error loading items")),
+          );
+        }
+
+        if (snapshot.connectionState == ConnectionState.done) {
+          final data = snapshot.data!.docs.map((e) => e.data()).toList();
+          for (final item in data) {
+            items.add(ItemRow(item["name"], item["buyingPrice"]));
+          }
+          return AgentCalculateWidget(items);
+        }
+        return Scaffold(
+          appBar: AppBar(title: Text("Loading...")),
+        );
+      },
+    );
+  }
+}
+
+class AgentCalculateWidget extends StatefulWidget {
+  final List<ItemRow> items;
+
+  const AgentCalculateWidget(this.items, {super.key});
+
+  @override
+  State<AgentCalculateWidget> createState() => _AgentCalculateWidgetState();
+}
+
+class _AgentCalculateWidgetState extends State<AgentCalculateWidget> {
   int totalPoints() {
     var total = 0;
-    for (var item in items) {
+    for (var item in widget.items) {
       total += item.product();
     }
     return total;
@@ -45,7 +91,7 @@ class _CalculatePageState extends State<CalculatePage> {
                   TableTextCell("Quantity in KG"),
                   TableTextCell("Product")
                 ]),
-                for (var item in items)
+                for (var item in widget.items)
                   TableRow(
                     children: [
                       TableTextCell(
@@ -93,7 +139,7 @@ class _CalculatePageState extends State<CalculatePage> {
                 final doc = FirebaseFirestore.instance
                     .collection("agent")
                     .doc(FirebaseAuth.instance.currentUser!.uid);
-                for (var item in items) {
+                for (var item in widget.items) {
                   await doc
                       .update({item.name: FieldValue.increment(item.quan)});
                 }
