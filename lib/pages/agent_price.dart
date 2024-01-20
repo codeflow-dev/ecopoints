@@ -78,51 +78,52 @@ class _PriceManagementPageState extends State<PriceManagementPage> {
             ),
             body: SingleChildScrollView(
               child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Table(
-                    children: [
+                padding: const EdgeInsets.all(20),
+                child: Table(
+                  children: [
+                    TableRow(
+                      children: [
+                        TableTextCell("Item name"),
+                        TableTextCell("Buying price"),
+                        TableTextCell("Selling price"),
+                      ],
+                    ),
+                    for (var item in items)
                       TableRow(
                         children: [
-                          TableTextCell("Item name"),
-                          TableTextCell("Buying price"),
-                          TableTextCell("Selling price"),
+                          TableTextCell(
+                            item["name"].toUpperCase()[0] +
+                                item["name"].substring(1),
+                          ),
+                          RoundedTextField(
+                            editingController: item["buying_controller"],
+                            onChanged: (value) {
+                              /*setState(() {
+                            if (value.trim() == "") {
+                              item.quan = 0;
+                            } else {
+                              item.quan = int.parse(value.trim());
+                            }
+                          });*/
+                            },
+                          ),
+                          RoundedTextField(
+                            editingController: item["selling_controller"],
+                            onChanged: (value) {
+                              /*setState(() {
+                            if (value.trim() == "") {
+                              item.quan = 0;
+                            } else {
+                              item.quan = int.parse(value.trim());
+                            }
+                          });*/
+                            },
+                          ),
                         ],
                       ),
-                      for (var item in items)
-                        TableRow(
-                          children: [
-                            TableTextCell(
-                              item["name"].toUpperCase()[0] +
-                                  item["name"].substring(1),
-                            ),
-                            RoundedTextField(
-                              editingController: item["buying_controller"],
-                              onChanged: (value) {
-                                /*setState(() {
-                            if (value.trim() == "") {
-                              item.quan = 0;
-                            } else {
-                              item.quan = int.parse(value.trim());
-                            }
-                          });*/
-                              },
-                            ),
-                            RoundedTextField(
-                              editingController: item["selling_controller"],
-                              onChanged: (value) {
-                                /*setState(() {
-                            if (value.trim() == "") {
-                              item.quan = 0;
-                            } else {
-                              item.quan = int.parse(value.trim());
-                            }
-                          });*/
-                              },
-                            ),
-                          ],
-                        ),
-                    ],
-                  )),
+                  ],
+                ),
+              ),
             ),
           );
         }

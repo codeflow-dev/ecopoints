@@ -335,7 +335,7 @@ class _AgentOrderApprovePageState extends State<AgentOrderApprovePage> {
 }*/
   @override
   Widget build(BuildContext context) {
-    String _capitalize(String input) {
+    String capitalize(String input) {
       return input[0].toUpperCase() + input.substring(1);
     }
 
@@ -431,7 +431,7 @@ class _AgentOrderApprovePageState extends State<AgentOrderApprovePage> {
                                         children: [
                                           TableCell(
                                             child: Text(
-                                                "${_capitalize(entry.key)}"),
+                                                "${capitalize(entry.key)}"),
                                           ),
                                           TableCell(
                                             child: Text("${entry.value} kg"),

@@ -55,7 +55,7 @@ class _AgentRedeemDataPageState extends State<AgentRedeemDataPage> {
                       .doc(widget.id)
                       .update({
                     "received": true,
-                    "agent": FirebaseAuth.instance.currentUser?.uid
+                    "agent": FirebaseAuth.instance.currentUser?.uid,
                   });
                   if (mounted) {
                     Navigator.pop(context);

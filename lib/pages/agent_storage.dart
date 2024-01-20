@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecopoints/common.dart';
 import 'package:ecopoints/pages/agent_calculate.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -95,7 +96,7 @@ class StoragePage extends StatelessWidget {
         return {};
       }
     } catch (error) {
-      print('Error fetching agent data: $error');
+      showToast('Error fetching agent data: $error');
       return {};
     }
   }

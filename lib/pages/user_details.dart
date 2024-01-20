@@ -63,7 +63,8 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                           ?.updatePassword(newPasswordController.text.trim());
                     } else {
                       throw Exception(
-                          "New password and confirm password do not match");
+                        "New password and confirm password do not match",
+                      );
                     }
                   } catch (e) {
                     showToast(e.toString());

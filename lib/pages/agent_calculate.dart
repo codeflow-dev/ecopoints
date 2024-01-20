@@ -1,5 +1,3 @@
-// ignore_for_file: require_trailing_commas, must_be_immutable
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecopoints/common.dart';
 import 'package:ecopoints/pages/provide_qr.dart';
@@ -86,16 +84,19 @@ class _AgentCalculateWidgetState extends State<AgentCalculateWidget> {
           children: [
             Table(
               children: [
-                TableRow(children: [
-                  TableTextCell("Item name"),
-                  TableTextCell("Quantity in KG"),
-                  TableTextCell("Product")
-                ]),
+                TableRow(
+                  children: [
+                    TableTextCell("Item name"),
+                    TableTextCell("Quantity in KG"),
+                    TableTextCell("Product"),
+                  ],
+                ),
                 for (var item in widget.items)
                   TableRow(
                     children: [
                       TableTextCell(
-                          item.name[0].toUpperCase() + item.name.substring(1)),
+                        item.name[0].toUpperCase() + item.name.substring(1),
+                      ),
                       RoundedTextField(
                         editingController: item.quantityController,
                         onChanged: (value) {
@@ -145,13 +146,15 @@ class _AgentCalculateWidgetState extends State<AgentCalculateWidget> {
                 }
                 if (mounted) {
                   Navigator.of(context).pop();
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => ProvideQRPage(id.id, totalPoints()),
-                  ));
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => ProvideQRPage(id.id, totalPoints()),
+                    ),
+                  );
                 }
               },
               child: Text("Generate QR Code"),
-            )
+            ),
           ],
         ),
       ),
@@ -175,10 +178,10 @@ class ItemRow {
 }
 
 class TableTextCell extends StatelessWidget {
-  String data = "";
-  TextAlign? textAlign;
+  final String data;
+  final TextAlign? textAlign;
 
-  TableTextCell(this.data, {super.key, this.textAlign});
+  const TableTextCell(this.data, {super.key, this.textAlign});
 
   @override
   Widget build(BuildContext context) {
@@ -197,10 +200,10 @@ class TableTextCell extends StatelessWidget {
 }
 
 class RoundedTextField extends StatelessWidget {
-  TextEditingController? editingController;
+  final TextEditingController? editingController;
   final ValueChanged<String>? onChanged;
 
-  RoundedTextField({super.key, this.editingController, this.onChanged});
+  const RoundedTextField({super.key, this.editingController, this.onChanged});
 
   @override
   Widget build(BuildContext context) {

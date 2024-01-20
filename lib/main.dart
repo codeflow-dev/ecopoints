@@ -19,7 +19,8 @@ void main() async {
   );
   if (Platform.isAndroid && darkMode) {
     SystemChrome.setSystemUIOverlayStyle(
-        const SystemUiOverlayStyle(systemNavigationBarColor: Colors.black));
+      const SystemUiOverlayStyle(systemNavigationBarColor: Colors.black),
+    );
   }
   runApp(
     ChangeNotifierProvider(

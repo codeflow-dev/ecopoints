@@ -65,9 +65,9 @@ class UserHomePage extends StatelessWidget {
                     Icon(Icons.account_balance),
                     SizedBox(width: 5),
                     Text(data["points"].toString()),
-                    SizedBox(width: 15)
+                    SizedBox(width: 15),
                   ],
-                )
+                ),
               ],
             ),
             body: GridView.count(

@@ -62,8 +62,9 @@ class TransactionHistoryPage extends StatelessWidget {
                                     TableRow(
                                       children: [
                                         TableTextCell(
-                                            item.key.toUpperCase()[0] +
-                                                item.key.substring(1)),
+                                          item.key.toUpperCase()[0] +
+                                              item.key.substring(1),
+                                        ),
                                         TableTextCell(item.value.toString()),
                                       ],
                                     ),
@@ -71,8 +72,9 @@ class TransactionHistoryPage extends StatelessWidget {
                               ),
                               Container(
                                 decoration: BoxDecoration(
-                                    color: darkGreenColor,
-                                    borderRadius: BorderRadius.circular(5)),
+                                  color: darkGreenColor,
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
@@ -82,11 +84,11 @@ class TransactionHistoryPage extends StatelessWidget {
                                     textAlign: TextAlign.left,
                                   ),
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         ),
-                      )
+                      ),
                   ],
                 ),
               ),
