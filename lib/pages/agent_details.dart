@@ -66,7 +66,8 @@ class _AgentDetailsPageState extends State<AgentDetailsPage> {
                           ?.updatePassword(newPasswordController.text.trim());
                     } else {
                       throw Exception(
-                          "New password and confirm password do not match");
+                        "New password and confirm password do not match",
+                      );
                     }
                   } catch (e) {
                     showToast(e.toString());
