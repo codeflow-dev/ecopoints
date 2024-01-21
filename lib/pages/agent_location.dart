@@ -161,8 +161,8 @@ class _AgentLocationState extends State<AgentLocation> {
                                         return AlertDialog(
                                           title: Text(
                                               'Your order has been successfully placed'),
-                                          content: Text(
-                                              'Please wait for the confirmation'),
+                                          content:
+                                              Text('Please visit agent branch'),
                                           actions: <Widget>[
                                             TextButton(
                                               onPressed: () {

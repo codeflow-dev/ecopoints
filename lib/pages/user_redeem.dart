@@ -151,13 +151,14 @@ class _UserRedeemPageState extends State<UserRedeemPage> {
         onPressed: () async {
           if (totalPoints() > widget.userPoints) {
             Fluttertoast.showToast(
-              msg: "This is Center Short Toast",
+              msg: "You don't have enough points",
               toastLength: Toast.LENGTH_SHORT,
               timeInSecForIosWeb: 1,
               backgroundColor: greenColor,
               textColor: Colors.white,
               fontSize: 16.0,
             );
+            return;
           }
           showLoadingDialog(context);
           await FirebaseFirestore.instance

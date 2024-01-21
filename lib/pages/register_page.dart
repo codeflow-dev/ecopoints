@@ -56,8 +56,6 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               TextButton(
                   onPressed: () async {
-                    Navigator.of(context).pop();
-
                     showLoadingDialog(context);
 
                     final user = await FirebaseAuth.instance
@@ -108,6 +106,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                                   .text
                                                   .trim());
                                       if (mounted) {
+                                        Navigator.of(context).pop();
                                         Navigator.of(context).pop();
                                       }
                                     },
