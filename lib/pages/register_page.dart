@@ -33,6 +33,110 @@ class _RegisterPageState extends State<RegisterPage> {
     try {
       if (_passwordController.text.trim() ==
           _confirmPasswordController.text.trim()) {
+        final adminPasswordController = TextEditingController();
+        final adminEmail = FirebaseAuth.instance.currentUser!.email!;
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text("Enter your admin password to confirm"),
+            content: TextField(
+              controller: adminPasswordController,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Password',
+              ),
+              obscureText: true,
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("Cancel"),
+              ),
+              TextButton(
+                  onPressed: () async {
+                    Navigator.of(context).pop();
+
+                    showLoadingDialog(context);
+
+                    final user = await FirebaseAuth.instance
+                        .createUserWithEmailAndPassword(
+                      email: _emailController.text.trim(),
+                      password: _passwordController.text.trim(),
+                    );
+
+                    if (user.user != null) {
+                      Map<String, dynamic> data = {
+                        "firstName": _firstNameController.text.trim(),
+                        "lastName": _lastNameController.text.trim(),
+                      };
+                      if (widget.role == "agent") {
+                        data["bottle"] = 0;
+                        data["carton"] = 0;
+                        data["iron"] = 0;
+                        data["paper"] = 0;
+                        data["plastic"] = 0;
+                        data["location"] = "Unknown";
+                      } else {
+                        data["points"] = 0;
+                      }
+
+                      await FirebaseFirestore.instance
+                          .collection(widget.role)
+                          .doc(user.user?.uid)
+                          .set(
+                            data,
+                            SetOptions(merge: true),
+                          );
+                      if (mounted) {
+                        Navigator.pop(context);
+                        if (widget.role == "agent") {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('New agent has been added'),
+                                // content: Text('Operation successful'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () async {
+                                      await FirebaseAuth.instance
+                                          .signInWithEmailAndPassword(
+                                              email: adminEmail,
+                                              password: adminPasswordController
+                                                  .text
+                                                  .trim());
+                                      if (mounted) {
+                                        Navigator.of(context).pop();
+                                      }
+                                    },
+                                    child: Text('OK'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                          // Navigator.of(context).pop();
+                          // Navigator.pushReplacement(
+                          //   context,
+                          //   MaterialPageRoute(builder: (context) => AgentHomePage()),
+                          // );
+                        } else {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => UserHomePage()),
+                          );
+                        }
+                      }
+                    }
+                  },
+                  child: Text("Confirm")),
+            ],
+          ),
+        );
+/*
         showLoadingDialog(context);
 
         final user = await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -96,7 +200,7 @@ class _RegisterPageState extends State<RegisterPage> {
               );
             }
           }
-        }
+        }*/
       } else {
         showToast("Both password fields should be same.");
       }
