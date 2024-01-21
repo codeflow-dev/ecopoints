@@ -132,7 +132,7 @@ class _AgentDetailsPageState extends State<AgentDetailsPage> {
                       controller: locationController,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: 'Location',
+                        labelText: 'Address',
                       ),
                     ),
                     SizedBox(height: 20),

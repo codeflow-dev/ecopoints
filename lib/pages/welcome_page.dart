@@ -45,7 +45,7 @@ class WelcomePage extends StatelessWidget {
                   children: [
                     TableRow(
                       children: [
-                        Text("To provide recyclables and earn points..."),
+                        Text("To provide or buy recyclables..."),
                         ElevatedButton(
                             onPressed: () =>
                                 _navigateToSecondPage(context, "user"),
@@ -61,6 +61,8 @@ class WelcomePage extends StatelessWidget {
                     ])
                   ],
                 ),
+                Text(
+                    "Please contact with admin to become an agent:\nPhone: 01310319767\nEmail: rifat@gmail.com"),
                 SizedBox(
                   height: 60,
                 ),
