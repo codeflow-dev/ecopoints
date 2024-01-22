@@ -23,8 +23,6 @@ class _BuyerPageState extends State<BuyerPage> {
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
-            // Navigator.push(context,
-            //     MaterialPageRoute(builder: (context) => BuyerPage()));
           },
           icon: Icon(Icons.arrow_back),
         ),

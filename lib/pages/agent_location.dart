@@ -1,6 +1,5 @@
-// ignore_for_file: unused_local_variable, unnecessary_string_interpolations, require_trailing_commas, avoid_print, use_super_parameters, library_private_types_in_public_api
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecopoints/common.dart';
 import 'package:ecopoints/models/item.dart';
 import 'package:ecopoints/pages/agent.dart';
 import 'package:ecopoints/pages/store.dart';
@@ -10,13 +9,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AgentLocation extends StatefulWidget {
-  const AgentLocation({Key? key}) : super(key: key);
+  const AgentLocation({super.key});
 
   @override
-  _AgentLocationState createState() => _AgentLocationState();
+  AgentLocationState createState() => AgentLocationState();
 }
 
-class _AgentLocationState extends State<AgentLocation> {
+class AgentLocationState extends State<AgentLocation> {
   AgentService agentService = AgentService();
   //store availability for each agent
   List<Map<String, dynamic>> agentAvailability = [];
@@ -40,20 +39,20 @@ class _AgentLocationState extends State<AgentLocation> {
         int f = 0;
         for (int i = 0; i < cart.length; i++) {
           try {
-            int quantity = data['${cart[i].name}'];
+            int quantity = data[cart[i].name];
             if (quantity < cart[i].getQuantity()) {
               f = 1;
               break;
             }
           } catch (e) {
-            print("Please give full info of an agent $e");
+            showToast("Please give full info of an agent $e");
           }
         }
         agentAvailability.add({'agentId': document.id, 'availability': f == 0});
       }
       setState(() {});
     } on Exception catch (error) {
-      print("Error looping through documents: $error");
+      showToast("Error looping through documents: $error");
     }
   }
 
@@ -102,7 +101,6 @@ class _AgentLocationState extends State<AgentLocation> {
                               ? () {
                                   try {
                                     final store = context.read<Store>();
-                                    final cart = store.cart;
                                     FirebaseFirestore.instance
                                         .collection('orders')
                                         .add({
@@ -112,7 +110,8 @@ class _AgentLocationState extends State<AgentLocation> {
                                           .instance.currentUser?.uid,
                                       'bottle': store.cart
                                           .where(
-                                              (item) => item.name == 'bottle')
+                                            (item) => item.name == 'bottle',
+                                          )
                                           .fold<int>(
                                             0,
                                             (previousValue, item) =>
@@ -121,7 +120,8 @@ class _AgentLocationState extends State<AgentLocation> {
                                           ),
                                       'carton': store.cart
                                           .where(
-                                              (item) => item.name == 'carton')
+                                            (item) => item.name == 'carton',
+                                          )
                                           .fold<int>(
                                             0,
                                             (previousValue, item) =>
@@ -146,7 +146,8 @@ class _AgentLocationState extends State<AgentLocation> {
                                           ),
                                       'plastic': store.cart
                                           .where(
-                                              (item) => item.name == 'plastic')
+                                            (item) => item.name == 'plastic',
+                                          )
                                           .fold<int>(
                                             0,
                                             (previousValue, item) =>
@@ -160,7 +161,8 @@ class _AgentLocationState extends State<AgentLocation> {
                                       builder: (BuildContext context) {
                                         return AlertDialog(
                                           title: Text(
-                                              'Your order has been successfully placed'),
+                                            'Your order has been successfully placed',
+                                          ),
                                           content:
                                               Text('Please visit agent branch'),
                                           actions: <Widget>[
@@ -168,12 +170,15 @@ class _AgentLocationState extends State<AgentLocation> {
                                               onPressed: () {
                                                 Navigator.of(context).pop();
                                                 Navigator.of(context).popUntil(
-                                                    (route) => route.isFirst);
+                                                  (route) => route.isFirst,
+                                                );
                                                 Navigator.pushReplacement(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            UserHomePage()));
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        UserHomePage(),
+                                                  ),
+                                                );
                                               },
                                               child: Text('OK'),
                                             ),
@@ -182,7 +187,9 @@ class _AgentLocationState extends State<AgentLocation> {
                                       },
                                     );
                                   } on Exception catch (_) {
-                                    print('Error in adding data in orders: $_');
+                                    showToast(
+                                      'Error in adding data in orders: $_',
+                                    );
                                   }
                                 }
                               : null,
@@ -204,7 +211,7 @@ class _AgentLocationState extends State<AgentLocation> {
                                             color: Colors.white,
                                           ),
                                           title: Text(
-                                            "${agents[index].name}",
+                                            agents[index].name,
                                             style: TextStyle(
                                               fontSize: 20,
                                               fontWeight: FontWeight.bold,
@@ -212,14 +219,14 @@ class _AgentLocationState extends State<AgentLocation> {
                                             ),
                                           ),
                                           subtitle: Text(
-                                            "${agents[index].location}",
+                                            agents[index].location,
                                             style: TextStyle(
                                               fontSize: 15,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
                                         ),
-                                      )
+                                      ),
                                     ],
                                   ),
                                   Positioned(
@@ -249,9 +256,17 @@ class _AgentLocationState extends State<AgentLocation> {
                                         color: agentAvailability[index]
                                                 ['availability']
                                             ? const Color.fromARGB(
-                                                255, 114, 212, 54)
+                                                255,
+                                                114,
+                                                212,
+                                                54,
+                                              )
                                             : const Color.fromARGB(
-                                                255, 224, 56, 56),
+                                                255,
+                                                224,
+                                                56,
+                                                56,
+                                              ),
                                       ),
                                       textAlign: TextAlign.center,
                                     ),

@@ -97,27 +97,9 @@ class _PriceManagementPageState extends State<PriceManagementPage> {
                           ),
                           RoundedTextField(
                             editingController: item["buying_controller"],
-                            onChanged: (value) {
-                              /*setState(() {
-                            if (value.trim() == "") {
-                              item.quan = 0;
-                            } else {
-                              item.quan = int.parse(value.trim());
-                            }
-                          });*/
-                            },
                           ),
                           RoundedTextField(
                             editingController: item["selling_controller"],
-                            onChanged: (value) {
-                              /*setState(() {
-                            if (value.trim() == "") {
-                              item.quan = 0;
-                            } else {
-                              item.quan = int.parse(value.trim());
-                            }
-                          });*/
-                            },
                           ),
                         ],
                       ),
